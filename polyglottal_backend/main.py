@@ -1,9 +1,12 @@
 from fastapi import FastAPI, HTTPException, Path, Query, WebSocket, WebSocketDisconnect
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from enum import Enum
 import uvicorn
 from typing import List
+from datetime import datetime
+import json
 
 # app = FastAPI(title="Polyglottal project")
 app = FastAPI()
@@ -17,10 +20,6 @@ app.add_middleware(
 )
 
 # clients: List[WebSocket] = []
-
-@app.get("/")
-def home():
-    return "Hello World"
 
 class ConnectionManager:
     def __init__(self):
@@ -42,6 +41,25 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+@app.get("/")
+def home():
+    return "Hello World"
+
+@app.websocket("/ws/{client_id}")
+async def websocket_endpoint(websocket: WebSocket, client_id: int):
+    await manager.connect(websocket)
+    now = datetime.now()
+    current_time = now.strftime("%H:%M")
+    try:
+        while True:
+            data = await websocket.receive_text()
+            message = {"time": current_time, "clientId": client_id, "message": data}
+            await manager.broadcast(json.dumps(message))
+    
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+        message = {"time": current_time, "clientId": client_id, "message": "Offline"}
+        await manager.broadcast(json.dumps(message))
 
 # @app.websocket("/ws")
 # async def websocket_endpoint(websocket: WebSocket):
