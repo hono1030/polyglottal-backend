@@ -53,32 +53,13 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     try:
         while True:
             data = await websocket.receive_text()
-            message = {"time": current_time, "clientId": client_id, "message": data}
+            message = {"time": current_time, "clientId": client_id, "message": data} # might change to the other tutorial one
             await manager.broadcast(json.dumps(message))
     
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        message = {"time": current_time, "clientId": client_id, "message": "Offline"}
+        message = {"time": current_time, "clientId": client_id, "message": "Offline"} # might change to the other tutorial one
         await manager.broadcast(json.dumps(message))
-
-# @app.websocket("/ws")
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     while True:
-#         data = await websocket.receive_text()
-#         await websocket.send_text(f"Message text was: {data}")
-
-# @app.websocket("/ws")
-# async def websocket_endpoint(websocket: WebSocket):
-#     await websocket.accept()
-#     clients.append(websocket)
-#     try:
-#         while True:
-#             data = await websocket.receive_text()
-#             for client in clients:
-#                 await client.send_text(f"Message text was: {data}")
-#     except WebSocketDisconnect:
-#         clients.remove(websocket)
 
 def start():
     """Launched with `poetry run start` at root level"""
