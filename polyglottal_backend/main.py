@@ -41,26 +41,38 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+class Userdata(BaseModel):
+    username: str
+
 @app.get("/")
 def home():
     return "Hello World"
 
-@app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+@app.post("/login")
+def create_userdata(userdata: Userdata) -> dict[str, str]:
+    print(userdata)
+    # username = userdata.username
+    
+    return {"username": userdata.username}
+    
+
+@app.websocket("/ws/{username}/{client_id}")
+async def websocket_endpoint(websocket: WebSocket, username: str, client_id: int):
     await manager.connect(websocket)
     now = datetime.now()
     current_time = now.strftime("%H:%M")
     try:
         while True:
             data = await websocket.receive_text()
-            message = {"time": current_time, "clientId": client_id, "message": data} # might change to the other tutorial one
+            message = {"time": current_time, "clientId": client_id, "username": username, "message": data} # might change to the other tutorial one
             await manager.broadcast(json.dumps(message))
     
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        message = {"time": current_time, "clientId": client_id, "message": "Offline"} # might change to the other tutorial one
+        message = {"time": current_time, "clientId": client_id, "username": username, "message": f"{username} left the chat"} # might change to the other tutorial one
         await manager.broadcast(json.dumps(message))
+
 
 def start():
     """Launched with `poetry run start` at root level"""
-    uvicorn.run("polyglottal_backend.main:app", port=8000, reload=True)
+    uvicorn.run("polyglottal_backend.main:app", port=8000, host="0.0.0.0", reload=True)
