@@ -7,6 +7,7 @@ import uvicorn
 from typing import List
 from datetime import datetime
 import json
+from polyglottal_backend.routes.route import router
 
 # app = FastAPI(title="Polyglottal project")
 app = FastAPI()
@@ -19,7 +20,20 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# clients: List[WebSocket] = []
+app.include_router(router)
+
+# from pymongo.mongo_client import MongoClient
+# from pymongo.server_api import ServerApi
+# uri = "mongodb+srv://hono1030:Go1F3bz62ANxcQzW@cluster0.egdgc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+# # Create a new client and connect to the server
+# client = MongoClient(uri, server_api=ServerApi('1'))
+# # Send a ping to confirm a successful connection
+# try:
+#     client.admin.command('ping')
+#     print("Pinged your deployment. You successfully connected to MongoDB!")
+# except Exception as e:
+#     print(e)
+
 
 class ConnectionManager:
     def __init__(self):
@@ -64,12 +78,12 @@ async def websocket_endpoint(websocket: WebSocket, username: str, client_id: int
     try:
         while True:
             data = await websocket.receive_text()
-            message = {"time": current_time, "clientId": client_id, "username": username, "message": data} # might change to the other tutorial one
+            message = {"time": current_time, "clientId": client_id, "username": username, "message": data}
             await manager.broadcast(json.dumps(message))
     
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        message = {"time": current_time, "clientId": client_id, "username": username, "message": f"{username} left the chat"} # might change to the other tutorial one
+        message = {"time": current_time, "clientId": client_id, "username": username, "message": f"{username} left the chat"}
         await manager.broadcast(json.dumps(message))
 
 
