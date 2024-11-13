@@ -20,6 +20,7 @@ app = FastAPI()
 
 app.include_router(router)
 
+print(os.getenv("FRONTEND_URL"))
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[os.getenv("FRONTEND_URL")],
