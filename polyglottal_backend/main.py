@@ -11,6 +11,8 @@ import json
 import os
 import uvicorn
 
+load_dotenv()
+
 # app = FastAPI(title="Polyglottal project")
 app = FastAPI()
 
