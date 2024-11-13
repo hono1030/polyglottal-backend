@@ -11,10 +11,6 @@ import json
 import os
 import uvicorn
 
-if not load_dotenv():
-    print("Failed to load dotenv")
-    exit()
-
 # app = FastAPI(title="Polyglottal project")
 app = FastAPI()
 
