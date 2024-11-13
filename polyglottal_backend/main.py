@@ -1,26 +1,34 @@
-from fastapi import FastAPI, HTTPException, Path, Query, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from enum import Enum
-import uvicorn
-from typing import List
 from datetime import datetime
-import json
+from dotenv import load_dotenv, find_dotenv
+from enum import Enum
+from fastapi import FastAPI, HTTPException, Path, Query, WebSocket, WebSocketDisconnect
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from polyglottal_backend.routes.route import router, post_message
+from pydantic import BaseModel
+from typing import List
+import json
+import os
+import uvicorn
+
+if not load_dotenv():
+    print("Failed to load dotenv")
+    exit()
 
 # app = FastAPI(title="Polyglottal project")
 app = FastAPI()
 
+app.include_router(router)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[os.getenv("FRONTEND_URL")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
 
-app.include_router(router)
+
 
 # from pymongo.mongo_client import MongoClient
 # from pymongo.server_api import ServerApi
