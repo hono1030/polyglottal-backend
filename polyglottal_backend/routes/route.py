@@ -6,19 +6,20 @@ from bson import ObjectId
 
 router = APIRouter()
 
+async def post_message(message: Message):
+    try:
+        response = collection_name.insert_one(dict(message))
+        print("Inserted message with ID:", response.inserted_id)
+        return response
+    except Exception as e:
+        print("Error inserting message:", e)
+        raise e
+    
 # GET Request Method
 @router.get("/database")
 async def get_messages():
     messages = list_serial(collection_name.find())
     return messages
-
-@router.post("/database")
-async def post_message(message: Message):
-    try: 
-        response = collection_name.insert_one(dict(message))
-        return {"status_code":200, "id":str(response.inserted_id)}
-    except HTTPException as e:
-        return HTTPException(status_code=500, detail=f"Some error occured {e}")
 
 @router.put("/database/{id}")
 async def put_message(id: str, message: Message):

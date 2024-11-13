@@ -7,7 +7,7 @@ import uvicorn
 from typing import List
 from datetime import datetime
 import json
-from polyglottal_backend.routes.route import router
+from polyglottal_backend.routes.route import router, post_message
 
 # app = FastAPI(title="Polyglottal project")
 app = FastAPI()
@@ -79,6 +79,11 @@ async def websocket_endpoint(websocket: WebSocket, username: str, client_id: int
         while True:
             data = await websocket.receive_text()
             message = {"time": current_time, "clientId": client_id, "username": username, "message": data}
+            try:
+                await post_message(message)
+                print("Message being added:", message)
+            except Exception as e:
+                print("Error posting message to MongoDB:", e)            
             await manager.broadcast(json.dumps(message))
     
     except WebSocketDisconnect:
