@@ -13,7 +13,6 @@ import uvicorn
 
 load_dotenv()
 
-# app = FastAPI(title="Polyglottal project")
 app = FastAPI()
 
 app.include_router(router)
@@ -26,21 +25,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
-
-
-# from pymongo.mongo_client import MongoClient
-# from pymongo.server_api import ServerApi
-# uri = "mongodb+srv://hono1030:Go1F3bz62ANxcQzW@cluster0.egdgc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-# # Create a new client and connect to the server
-# client = MongoClient(uri, server_api=ServerApi('1'))
-# # Send a ping to confirm a successful connection
-# try:
-#     client.admin.command('ping')
-#     print("Pinged your deployment. You successfully connected to MongoDB!")
-# except Exception as e:
-#     print(e)
-
 
 class ConnectionManager:
     def __init__(self):
@@ -105,4 +89,3 @@ def start():
 
 if __name__ == "main":
     start()
-    
