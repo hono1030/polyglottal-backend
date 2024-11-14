@@ -29,7 +29,6 @@ This is the backend for a Real-Time Chat Application using WebSockets, built wit
 - **Poetry** for managing dependencies. Install with:
 
 ```bash
-Copy code
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
