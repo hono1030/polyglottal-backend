@@ -1,6 +1,6 @@
 # polyglottal-backend
 
-This is the backend for a Real-Time Chat Application using WebSockets, built with FastAPI and Python. It provides endpoints for user authentication and database interactions, while enabling real-time messaging between clients. MongoDB is used for message storage, and the app is deployed with Uvicorn.
+This is the backend for a Real-Time Chat Application using WebSockets, built with FastAPI and Python. 
 
 ---
 
