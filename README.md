@@ -25,13 +25,8 @@ This is the backend for a Real-Time Chat Application using WebSockets, built wit
 
 ### Prerequisites
 
-- **Python** 3.8 or higher
-- **Poetry** for managing dependencies. Install with:
-
-```bash
-curl -sSL https://install.python-poetry.org | python3 -
-```
-
+- **Python** 3.12 or higher
+- **Poetry** for managing dependencies. 
 - **MongoDB** server (local or remote)
 
 ### Installation
