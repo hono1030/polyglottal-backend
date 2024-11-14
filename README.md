@@ -73,7 +73,3 @@ poetry run uvicorn main:app --reload
 - You can check out the interactive documentation at http://localhost:8000/docs.
 
 3. **WebSocket Testing**: Use the WebSocket URL (ws://localhost:8000).
-
-```
-
-```
