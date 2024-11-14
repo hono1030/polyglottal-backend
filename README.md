@@ -55,7 +55,7 @@ MONGODB_CONN_STRING="mongodb://localhost:27017" # MongoDB connection URL
 1. **Start the FastAPI Server**
 
 ```bash
-poetry run uvicorn main:app --reload
+poetry run start
 ```
 
 2. **Access the API**: The API will be available at http://localhost:8000.
