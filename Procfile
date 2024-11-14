@@ -1,1 +1,1 @@
-web: python3 -m poetry run start
+web: python3 polyglottal_backend/main.py

@@ -102,3 +102,7 @@ async def websocket_endpoint(websocket: WebSocket, username: str, client_id: int
 def start():
     """Launched with `poetry run start` at root level"""
     uvicorn.run("polyglottal_backend.main:app", port=8000, host="0.0.0.0", reload=True)
+
+if __name__ == "main":
+    start()
+    

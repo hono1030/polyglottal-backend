@@ -100,7 +100,7 @@ def query_items_by_parameters(
         "selection": selection,
     }
 
-@app.post("/")
+@app.post("/item")
 def add_item(item: Item) -> dict[str, Item]:
 
     if item.id in items:
